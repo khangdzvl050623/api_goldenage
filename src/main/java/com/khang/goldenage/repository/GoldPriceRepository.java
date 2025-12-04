@@ -20,7 +20,13 @@ public interface GoldPriceRepository extends JpaRepository<GoldPrice, Long> {
     WHERE g.updatedTime = (
         SELECT MAX(g2.updatedTime)
         FROM GoldPrice g2
-        WHERE g2.goldType = g.goldType
+        WHERE g2.goldName = g.goldName
+    )
+    AND g.id = (
+        SELECT MAX(g3.id)
+        FROM GoldPrice g3
+        WHERE g3.goldName = g.goldName
+          AND g3.updatedTime = g.updatedTime
     )
 """)
   List<GoldPrice> findLatestGoldPricesByUpdatedTime();

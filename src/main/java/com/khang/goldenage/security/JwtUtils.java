@@ -13,20 +13,21 @@ import java.util.Map;
 @Component
 public class JwtUtils {
   @Value("${jwt.secret}")
-  private  String jwtSecret;
+  private String jwtSecret;
   @Value("${jwt.expiration}")
-  private  long jwtExpirationMs; // 1 ngày
+  private long jwtExpirationMs; // 1 ngày
 
-  public String generateToken(String email,String role) {
+  public String generateToken(String email, String role, Long userId) {
     return Jwts.builder()
       .setSubject(email)
+      .claim("userId", userId) // Thêm userId vào payload
+      .claim("role", role)
       .setIssuedAt(new Date())
       .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-      .addClaims(Map.of("role", role))
       .signWith(SignatureAlgorithm.HS256, jwtSecret)
-      .compact(); // ket thuc token va tra ve duoi dang chuoi
-
+      .compact();
   }
+
   // xac thuc token va lay thong tin tu token
   public Claims getClaimsFromToken(String token) {
     return Jwts.parser()
@@ -34,6 +35,7 @@ public class JwtUtils {
       .parseClaimsJws(token)  // trả v cac claim (thanh phan cua token)
       .getBody();
   }
+
   // Kiểm tra token còn hiệu lực không
   public boolean validateToken(String token) {
     try {

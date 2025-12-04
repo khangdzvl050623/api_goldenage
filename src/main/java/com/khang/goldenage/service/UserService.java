@@ -46,7 +46,7 @@ public class UserService {
     user.setRole(EUserRole.CLIENT);
     User savedUser = userRepository.save(user);
     // tao jwt
-    String token = jwtUtils.generateToken(savedUser.getEmail(), savedUser.getRole().name());
+    String token = jwtUtils.generateToken(savedUser.getEmail(), savedUser.getRole().name(), savedUser.getId());
     UserResponseDto userResponseDto = userMapper.toResponseDto(savedUser); // regis tra ve userreponse voi token
     String bearerToken = "Bearer " + token;
     userResponseDto.setToken(bearerToken);
@@ -62,7 +62,7 @@ public class UserService {
       throw new IllegalArgumentException("Wrong password");
 
     }
-    String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
+    String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name(), user.getId());
     UserResponseDto userResponseDto = userMapper.toResponseDto(user); // login tra ve userresponse voi token
     String bearerToken = "Bearer " + token; // thêm tieền tố bearer
     userResponseDto.setToken(bearerToken);

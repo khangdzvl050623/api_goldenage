@@ -18,18 +18,18 @@ import java.util.List;
 public class GoldPriceController {
 
 
-    @Autowired
-    private GoldPriceService goldPriceService;
+  @Autowired
+  private GoldPriceService goldPriceService;
 
-    @GetMapping("/history")
-    public ResponseEntity<List<GoldPrice>> getGoldPriceHistory() {
-        return ResponseEntity.ok(goldPriceService.getGoldPrices());
-    }
+  @GetMapping("/history")
+  public ResponseEntity<List<GoldPrice>> getGoldPriceHistory() {
+    return ResponseEntity.ok(goldPriceService.getGoldPrices());
+  }
 
-    @GetMapping("/current-gold-prices")
-    public ResponseEntity<List<GoldPrice>> getCurrentGoldPrices() {
-        return ResponseEntity.ok(goldPriceService.getLatestGoldPrices());
-    }
+  @GetMapping("/current-gold-prices")
+  public ResponseEntity<List<GoldPrice>> getCurrentGoldPrices() {
+    return ResponseEntity.ok(goldPriceService.getLatestGoldPrices());
+  }
 
 
 }

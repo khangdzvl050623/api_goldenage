@@ -57,15 +57,15 @@ public class ExchangeRateService {
             if (content == null || content.trim().isEmpty()) {
                 throw new IOException("Không nhận được dữ liệu từ API.");
             }
-
-            if (content.trim().startsWith("<?xml")) {
-                // Nếu dữ liệu là XML
-                exchangeRates = parseXmlExchangeRate(content);
-            } else if (content.trim().startsWith("{") || content.trim().startsWith("[")) {
-                // Nếu dữ liệu là JSON
-                exchangeRates = parseJsonExchangerate(content);
-            } else {
-                throw new IOException("Dữ liệu không phải là XML hay JSON.");
+            try{
+              exchangeRates= parseXmlExchangeRate(content);
+            }
+            catch(Exception xmlException){
+              try{
+                exchangeRates= parseJsonExchangerate(content);
+              } catch (Exception jsonException) {
+                throw new IOException("dữ liệu nhận vào không fai json hay xml");
+              }
             }
         } catch (Exception e) {
             logger.error("Lỗi trong khi phân tích dữ liệu từ URL: {}", e.getMessage(), e);

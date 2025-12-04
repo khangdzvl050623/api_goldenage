@@ -1,10 +1,12 @@
 package com.khang.goldenage.service;
 
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.khang.goldenage.modal.GoldPrice;
 import com.khang.goldenage.repository.GoldPriceRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,11 +29,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.slf4j.Logger;
+
 import java.util.stream.Collectors;
+
 
 @Service
 public class GoldPriceService {
-
+  private static final Logger logger = LoggerFactory.getLogger(GoldPriceService.class);
   @Autowired
   private GoldPriceRepository goldPriceRepository;
 
@@ -57,12 +63,14 @@ public class GoldPriceService {
         throw new IOException("Dữ liệu không phải là XML hay JSON.");
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("loi khi parse du lieu vang");
     }
-
-    // Lưu danh sách vào cơ sở dữ liệu nếu có dữ liệu
-    if (!goldPrices.isEmpty()) {
-      goldPriceRepository.saveAll(goldPrices);
+    try {
+      if (!goldPrices.isEmpty()) {
+        goldPriceRepository.saveAll(goldPrices);
+      }
+    } catch (Exception e) {
+      logger.error("lỗi không the save du lieu ve db");
     }
     return goldPrices;
   }

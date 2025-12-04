@@ -27,8 +27,12 @@ public class CronGetGoldAndExchangeRateService {
       List<GoldPrice> goldPrices = goldPriceService.parsePriceFromUrl(url);
 
       // display ra
-      goldPrices.forEach(goldPrice -> System.out.println(goldPrice));
-
+//      goldPrices.forEach(goldPrice -> System.out.println(goldPrice));
+      if (goldPrices.isEmpty()) {
+        System.out.println("No gold prices fetched");
+      } else {
+        goldPrices.forEach(System.out::println);
+      }
 
     } catch (Exception e) {
       System.err.println("Error fetching gold prices: " + e.getMessage());

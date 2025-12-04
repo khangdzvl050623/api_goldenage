@@ -1,5 +1,5 @@
 package com.khang.goldenage.config;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,10 +11,13 @@ public class WebConfig implements WebMvcConfigurer {
     registry.addMapping("/**")
       .allowedOrigins(
         "http://localhost:4000",
+        "http://localhost:5173",
+        "https://localhost:5173",
         "http://192.168.2.65:4000",
         "https://goldenages.online",
         "http://goldenages.online",
         "https://api.goldenages.online",
+        "http://api.goldenages.online",
         "https://frontend-domain.onrender.com",
         "http://goldenages-3.onrender.com",
         "https://goldenages-3.onrender.com"
